@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
@@ -19,8 +20,35 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const router = useRouter(); // To navigate to login page
 
-  const handleRegister = () => {
-    console.log('Registering:', username, email, password);
+  const handleRegister = async () => {
+    if (!username || !email || !password) {
+      Alert.alert('Error', 'Please fill all fields.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://ec2-3-19-77-201.us-east-2.compute.amazonaws.com/test', { // Replace with your actual backend URL
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Registration successful, redirect to login page
+        Alert.alert('Success', 'Registration successful! Please log in.');
+        router.push('/'); // Navigate back to login page (assuming your login page is at '/')
+      } else {
+        // Show error message from server
+        Alert.alert('Error', data.message || 'Registration failed.');
+      }
+    } catch (error) {
+      console.error('Error registering:', error);
+      Alert.alert('Error', 'An error occurred during registration.');
+    }
   };
 
   const handleLoginRedirect = () => {
@@ -73,7 +101,6 @@ export default function RegisterScreen() {
                 onSubmitEditing={Keyboard.dismiss}
               />
 
-              {/* Custom Sign Up Button with Border */}
               <TouchableOpacity onPress={handleRegister} style={styles.signUpButtonCustom}>
                 <Text style={styles.signUpButtonText}>Sign Up</Text>
               </TouchableOpacity>

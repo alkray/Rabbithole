@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
@@ -19,7 +20,14 @@ export default function LoginScreen() {
   const router = useRouter();
 
   const handleLogin = () => {
+    if (!username || !password) {
+      Alert.alert('Error', 'Please enter both username and password.');
+      return;
+    }
+    
+    // Assuming the login is successful, redirect to homepage
     console.log('Username:', username, 'Password:', password);
+    router.push('/homepage'); // Redirecting to homepage.jsx
   };
 
   const handleSignUp = () => {
@@ -61,7 +69,6 @@ export default function LoginScreen() {
                 onSubmitEditing={Keyboard.dismiss}
               />
 
-              {/* Custom Login Button with Border */}
               <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
                 <Text style={styles.loginButtonText}>Login</Text>
               </TouchableOpacity>
@@ -118,14 +125,14 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#000', // Black border
-    borderWidth: 2,      // Border width
-    borderRadius: 8,     // Border radius
+    borderColor: '#000',
+    borderWidth: 2,
+    borderRadius: 8,
     marginTop: 20,
   },
   loginButtonText: {
     fontSize: 18,
-    color: '#000',       // Text color
+    color: '#000',
     fontWeight: 'bold',
   },
   signUpContainer: {
