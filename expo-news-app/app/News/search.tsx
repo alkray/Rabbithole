@@ -29,7 +29,7 @@ const Page = (props: Props) => {
       let categoryString = category ? `&category=${category}` : "";
       let countryString = country ? `&country=${country}` : "";
 
-      const API_KEY = "6a72c16b07774a419b36bf8ba7602870"; // Updated API key
+      const API_KEY = ""; // Updated API key
       const url = `https://newsapi.org/v2/top-headlines?apiKey=${API_KEY}${queryString}${categoryString}${countryString}&language=en&pageSize=20&image=1`;
 
       const response = await axios.get(url);

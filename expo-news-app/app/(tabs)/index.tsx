@@ -31,7 +31,7 @@ const Page = () => {
     setLoading(false);
   };
 
-  const API_KEY = '6a72c16b07774a419b36bf8ba7602870';
+  const API_KEY = '';
 
   const getBreakingNews = async () => {
     try {
